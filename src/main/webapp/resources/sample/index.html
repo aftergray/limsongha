@@ -3,47 +3,127 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet" href="/edu_webapp/resources/sample/css/reset.css"
+	type="text/css">
+<script src="https://code.jquery.com/jquery-3.5.1.min.js">
+  </script>
+<script>
+	  
+function menu() {
+	var gnb = document.getElementById("gnb");
+	if(gnb.style.display=='none'){
+		gnb.style.display="block";
+	}else{
+		gnb.style.display="none";
+	}
+}
+	
 
+</script>
 <style>
-span {
-	display: inline-block;
-	height: 10px;
+.header {
+	height: 80px; 
+	position : relative;
+	padding: 2px 2%;
+	position: relative; /*안쪽여백*/
+}
+
+.header .logo {
+	float: left;
+}
+
+.header .logo a {
+	display: block;
+	height: 80px;
+	background-image : url("img/cat.jpg");
+	background-size: 100%;
+	background-repeat: no-repeat;
+	background-position:0px center;
+	font-size: 26px;
+	color: blue;
+	font-weight: normal;
+	text-indent:-9999%;
+	
+}
+
+#menu_toggle_btn {
+	float: right;
+	width: 20px;
+	margin-top: 28px;
+	cursor: pointer;
+}
+
+#menu_toggle_btn span {
+	display: block;
+	height: 2px;
+	width: 100%;
+	margin-bottom: 5px;
+}
+
+#gnb {
+	display: block;
+	position: absolute;
+	top: 80px;
+	left: 0px;
+	width: 100%;
+	background-color: black;
+	z-index: 21;
+}
+
+#gnb li {
+	border-bottom: 1px solid red;
+}
+
+#gnb li a{
+	display: block;
+	padding: 14px 0 14px 5%;
+	font-size: 14px;
+	color: yellow;
+	
+}
+
+.header span {
+	display: block;
+	height: 7px;
 	width: 50px;
 	background-color: red;
-	margin-bottom: 10px;
+	margin-bottom: 5px;
+}
+
+#wrap .slider img {
+	width: 100%;
 }
 </style>
-
 </head>
 <body>
 
 	<div id="wrap">
 		<!-- 랩핑시킨 영역 div -->
-		<header>
-			<h1>LOGO</h1>
+		<header class="header">
+			<h1 class="logo">
+				<a href="index.html">LOGO</a>
+			</h1>
+			<div id="menu_toggle_btn" onclick="menu()">
+				<span></span> <span></span> <span></span>
+			</div>
+			<nav id="gnb">
+				<ul>
+					<li><a href="index.html">HOME</a></li>
+					<li><a href="weare.html" >WE ARE</a></li>
+					<li><a href="home.html">WORK</a></li>
+					<li><a href="blog.html">BLOG</a></li>
+					<li><a href="contact.html" >CONTACT US</a></li>
+				</ul>
+			</nav>
+			<section>
 
+				<div class="slider">
+					<img src="./img/railway-508568_1920.jpg" alt="크리스마스 이미지입니다.">
+				</div>
 
-			<span></span>
-			<!-- span : 자리를 차지하지않는 영역 -->
-			<span></span> 
-			<span></span>
-			
-			<ul>
-			<li>HOME</li>
-			<li>WE ARE</li>
-			<li>WORK</li>
-			<li>BLOG</li>
-			<li>CONTACT US</li>
-			</ul> 
-<section>
-
-<div class="slider">
-<img src="./img/railway-508568_1920.jpg" alt="크리스마스 이미지입니다.">
-</div>
-
-</section>			
-			 슬라이드이미지1
-			 <footer>LOGO</footer>
+			</section>
+			슬라이드이미지1
+			<footer>LOGO</footer>
 		</header>
 
 	</div>
