@@ -1,5 +1,19 @@
 @charset "UTF-8";
 
+body {
+	font-size: 14px;
+} 
+
+
+#gnb {
+	display: none; /*페이지로딩할때 숨겨야 하기 때문에 none으로 처리*/
+	position: absolute; /*gnb영역의 위치를 절대위치로 지정 위치정보가 필요*/
+	top: 80px; /*화면상단에서 얼만큼 떨어지게 배치할 건지 지정*/
+	left: 0px; /*화면왼쪽에서 얼만큼 떨어지게 배치할지 저정*/
+	width: 100%;
+	background: #3f51b5;
+	z-index: 21; /*화면에서 콘텐츠가 겹치는경우 z인덱스*/
+}
 .out { background: black; }
 .hover {background: gray; }
 
@@ -41,15 +55,7 @@
 	margin-bottom: 5px;
 }
 
-#gnb {
-	display: block;
-	position: absolute;
-	top: 80px;
-	left: 0px;
-	width: 100%;
-	
-	z-index: 21;
-}
+
 
 #gnb li {
 	border-bottom: 1px solid red;
@@ -76,132 +82,214 @@
 
 /* footer영역시작*/
 .footer {
-margin-top:30px;
-}
-.footer p {
-margin: 21px 0px;
-color:#3f51b5;
-text-align:center;/*문장내용을 가로 가운데 정렬*/
+	margin-top: 30px;
 }
 
+.footer p {
+	margin: 21px 0px;
+	color: #3f51b5;
+	text-align: center; /*문장내용을 가로 가운데 정렬*/
+}
 
 /*we are*/
 .section_title {
-margin-bottom: 30px;
-font-size:42px;
-color:blue;
-font-weight: normal;
-letter-spacing:5px;
-text-align: center;
+	margin-bottom: 30px;
+	font-size: 42px;
+	color: blue;
+	font-weight: normal;
+	letter-spacing: 5px;
+	text-align: center;
 }
-.weare_header{
-margin-top: 30px;
-text-align: center;
-}
-.weare_header p{
-color:red;
-line-height: 1.9;
-font-size: 14px;
 
+.weare_header {
+	margin-top: 30px;
+	text-align: center;
 }
-.weare_body{
-margin-top: 68px;
+
+.weare_header p {
+	color: red;
+	line-height: 1.9;
+	font-size: 14px;
 }
-.weare_body li{
-text-align: center;
-margin-top: 50px;
+
+.weare_body {
+	margin-top: 68px;
 }
-.weare_body li img{
-height:220px;
+
+.weare_body li {
+	text-align: center;
+	margin-top: 50px;
 }
-.weare_body li h2{
-font-size: 32px;
+
+.weare_body li img {
+	height: 220px;
+}
+
+.weare_body li h2 {
+	font-size: 32px;
 }
 
 .info {
 	text-align: center;
 }
+
 .work_section {
-text-align:center;
-margin-top:30px;
+	text-align: center;
+	margin-top: 30px;
 }
-.work_section li img {width:100%;}
-.work_section li a {/*이부분이 실제 a태그 영역*/
-/*a 태그가 자리를 차지하지 않는 영역이고, block을 이용해서 자리를 차지하는 영역으로 변경(아래)*/
-display:block;
-width:100%;
-height:100%;
-position:relative;/*a태그에서 위치를 상대위치로 지정*/
+
+.work_section li img {
+	width: 100%;
+}
+
+.work_section li a { /*이부분이 실제 a태그 영역*/
+	/*a 태그가 자리를 차지하지 않는 영역이고, block을 이용해서 자리를 차지하는 영역으로 변경(아래)*/
+	display: block;
+	width: 100%;
+	height: 100%;
+	position: relative; /*a태그에서 위치를 상대위치로 지정*/
 }
 /*마우스를 롤오버했을때 나오는 배경색상 before가상요소 영역(아래)*/
 .work_section li a::before {
-display:block;
-background:#3f51b5;
-/*이 절대값 위치는 위 a태그에서 지정한 relative상대위치에 한정해서 절대위치로 지정됨(아래)*/
-position:absolute;
-width:100%;
-height:100%;
-top:0px;/*화면의 세로 위쪽으로 0px위치*/
-left:0px;/*화면가로로 0px위치*/
-content:"";
-opacity:0;/*투명도 0%로 지정*/
-}
-.work_section li a:hover::before{
-opacity: 0.3;
-}
-.work_section .info{
-display:block;/*화면에서 자리를 차지하기 위해서 block을 지정합니다.*/
-position:absolute;
-left:10px;
-color:#fff;
-text-align:left;
-opacity:0;
-transition:all 0.3s;
-}
-.work_section li a:hover .info{
-opacity:1;
-transform:translateY(20px);/*모양이 변화할때 Y세로축으로 20px 이동합니다.*/
-}
-.info h2 {
-font-size:26px;
-font-weight:normal;
-}
-.info p {
-font-size:14px;
-padding:10px 0px;
+	display: block;
+	background: #3f51b5;
+	/*이 절대값 위치는 위 a태그에서 지정한 relative상대위치에 한정해서 절대위치로 지정됨(아래)*/
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top: 0px; /*화면의 세로 위쪽으로 0px위치*/
+	left: 0px; /*화면가로로 0px위치*/
+	content: "";
+	opacity: 0; /*투명도 0%로 지정*/
 }
 
+.work_section li a:hover::before {
+	opacity: 0.3;
+}
+
+.work_section .info {
+	display: block; /*화면에서 자리를 차지하기 위해서 block을 지정합니다.*/
+	position: absolute;
+	left: 10px;
+	color: #fff;
+	text-align: left;
+	opacity: 0;
+	transition: all 0.3s;
+}
+
+.work_section li a:hover .info {
+	opacity: 1;
+	transform: translateY(20px); /*모양이 변화할때 Y세로축으로 20px 이동합니다.*/
+}
+
+.info h2 {
+	font-size: 26px;
+	font-weight: normal;
+}
+
+.info p {
+	font-size: 14px;
+	padding: 10px 0px;
+}
 
 /* blog 영역 시작 */
 .blog-section {
-margin-top:30px;
+	margin-top: 30px;
 }
+
 .blog-section h1 {
-text-align:center;
-font-size:30px;
-color:#3f51b5;
+	text-align: center;
+	font-size: 30px;
+	color: #3f51b5;
 }
+
 .blog-section .container {
-width:90%;
-margin:0 auto;
+	width: 90%;
+	margin: 0 auto;
 }
+
 .blog-section li {
-margin-top:30px;
+	margin-top: 30px;
 }
 /*위에서 현재 영역을 가운데정렬시 margin:0 auto; 좌우로 5%가 자동으로 잡힘*/
 .blog-section li img {
-width:100%;
+	width: 100%;
 }
+
 .blog-section li time {
-display:block;
-margin:10px 0px;
-font-size:12px;
-color:#888;
+	display: block;
+	margin: 10px 0px;
+	font-size: 12px;
+	color: #888;
 }
+
 .blog-section li h2 {
-color:#424242;
-font-weight:normal;
-line-height:1.6;/*줄간격단위는 현재 글자크기의 배수*/
+	color: #424242;
+	font-weight: normal;
+	line-height: 1.6; /*줄간격단위는 현재 글자크기의 배수*/
 }
 /* reset.css 에서 hr태그를 display:none;적용했기 때문에, 특별히 .blog영역에서만 hr 적용 */
-.blog-section hr {display:block; height:1px; background:#3f51b5;}
+.blog-section hr {
+	display: block;
+	height: 1px;
+	background: #3f51b5;
+}
+
+.contact_section {
+	margin-top: 30px;
+}
+
+.contact_section h1 {
+	font-size: 42px;
+	text-align: center;
+	color: red;
+	font-weight: normal;
+}
+
+.contact_section form {
+	margin-top: 30px;
+}
+
+.contact_section .container {
+	width: 90%;
+	margin: 0 quto;
+	margin-top: 30px;
+}
+
+.contact_section label {
+	display: none; /* 모바일에서는 숨기지만, 테블릿+PC용에서는 보이게 처리예정 */
+}
+
+.contact_section form input {
+	width: 100%;
+	line-height: 1.2;
+	padding: 0 2px;
+	height: 40px;
+	border: none; /*테두리 삭제*/
+	border-bottom: 2px solid #ccc; /* 테두리 선설정:굵기,solid실선,dotted점선 ,선색상 */
+	background: transparent; /*배경색상 투명처리*/
+}
+
+.contact_section form textarea {
+	width: 100%;
+	background: transparent;
+	line-height: 1.2;
+	border: none;
+	border-bottom: 2px solid #ccc;
+	min-height: 100px; /*최소높이를 지정하는 이유는 내용이 없더라도, 높이를 100px로 고정하는 의미*/
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+.contact_section form button {
+	padding: 15px; /*여백이 있는 버튼을 만들기*/
+	font-size: 12px;
+	background: #3f51b5;
+	color: #fff;
+	border: 0px;
+}
+
+.submit_btn {
+	margin-top: 10px;
+	text-align: right; /*div영역안쪽의 내용을 좌우 정렬시키는 명령*/
+}
