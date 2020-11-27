@@ -2,12 +2,16 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1">
 <title>Insert title here</title>
 
 <link rel="stylesheet" href="/edu_webapp/resources/sample/css/reset.css"
 	type="text/css">
 <link rel="stylesheet"
 	href="/edu_webapp/resources/sample/css/mobile.css" type="text/css">
+<link rel="stylesheet"
+	href="/edu_webapp/resources/sample/css/tablet.css" type="text/css">
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="/edu_webapp/resources/sample/js/user.js"></script>
 
@@ -16,7 +20,13 @@
 http://hangul.thefron.me/ 한글입숨
 https://www.websiteplanet.com/ko/webtools/lorem-ipsum/ 영어입숨
 */
-
+@media all and (min-width:768px) {
+	.work_section li {
+		float: left;
+		width: 50%;
+	}
+	
+}
 </style>
 
 <script type="text/javascript">
@@ -65,7 +75,7 @@ https://www.websiteplanet.com/ko/webtools/lorem-ipsum/ 영어입숨
 						alt="갤러리게시판2 이미지1"></a></li>
 				<li><a href="javascript:;"><div class="info">
 							<h2>갤러리제목1</h2>
-							<p>갤러리게시물1번의 내용입니다..</p>
+							<p>갤러리게시물1번ㄱㄱㄱㄱㄱㄱ의 내용입니다..</p>
 						</div> <img src="/edu_webapp/resources/sample/img/cat2.jpg"
 						alt="갤러리게시판2 이미지1"></a></li>
 				<li><a href="javascript:;"><div class="info">
@@ -97,7 +107,7 @@ https://www.websiteplanet.com/ko/webtools/lorem-ipsum/ 영어입숨
 			</ul>
 		</section>
 
-		<footer class="footer">
+		<footer class="footer float-clear">
 			<p>LOGO</p>
 		</footer>
 	</div>

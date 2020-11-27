@@ -2,6 +2,7 @@
 
 body {
 	font-size: 14px;
+	line-height: 1.4;
 } 
 
 
@@ -199,7 +200,7 @@ body {
 
 .blog-section h1 {
 	text-align: center;
-	font-size: 30px;
+	font-size: 42px;
 	color: #3f51b5;
 }
 
@@ -246,13 +247,10 @@ body {
 	font-weight: normal;
 }
 
-.contact_section form {
-	margin-top: 30px;
-}
 
 .contact_section .container {
 	width: 90%;
-	margin: 0 quto;
+	margin: 0 auto;
 	margin-top: 30px;
 }
 

@@ -9,6 +9,7 @@
 	display:none;
 }
 
+.float-clear { clear: both;}
 .header #gnb {
 display:block;
 position:static;/*absolute에서 static*/
