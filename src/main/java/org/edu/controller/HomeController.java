@@ -25,7 +25,35 @@ public class HomeController {
 	 * Simply selects the home view to render by returning its name.
 	 * 루트/ 라는 이름으로 요청 받으면, home.jsp 파일에 화면출력(렌더링)이 됩니다.
 	 */
-	@RequestMapping(value = "/", method = RequestMethod.GET)
+	
+	
+	@RequestMapping(value="/weare",method = RequestMethod.GET)
+	public String weare() {
+		return "sample/weare";
+	}
+	@RequestMapping(value = "/", method = RequestMethod.GET) //절대경로
+	public String index() {
+		return "sample/index"; 
+	}
+	@RequestMapping(value = "/work", method = RequestMethod.GET) //절대경로
+	public String work() {
+		return "sample/work"; 
+	}
+	@RequestMapping(value = "/contact", method = RequestMethod.GET) //절대경로
+	public String contact() {
+		return "sample/contact"; 
+	}
+	@RequestMapping(value = "/contact", method = RequestMethod.POST) //절대경로
+	public String contact_send() {
+		return "redirect:/blog"; 
+	}
+	@RequestMapping(value = "/blog", method = RequestMethod.GET) //절대경로
+	public String blog() {
+		return "sample/blog"; 
+	}
+		
+		
+	/*@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
 		logger.info("환영합니다 현재 여러분 컴퓨터 언어는 {}.", locale);
 		logger.info("환영합니다 현재 여러분 컴퓨터 언어는 " + locale + "입니다");
@@ -40,7 +68,7 @@ public class HomeController {
 		model.addAttribute("serverTime", formattedDate );
 		//model 이라는 클래스형 변수를 이용해 변수값을 home.jsp에 연동
 		//이곳에서 추가한 serverTime 이라는 변수를 home.jsp에서 사용할수있단말
-		return "home";
-	}
+		return "home";*/
+	
 	
 }
