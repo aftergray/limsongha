@@ -1,9 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+
 <!-- 관리자단 헤더 시작 header.jsp -->
 <!DOCTYPE html>
 <html lang="ko">
 <head>
+<script>
+if('${msg}' != '') {//자바의 EL표기법 = 달라{변수명}
+	alert("${msg} 가(이) 성공하였습니다.");
+}
+</script>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>관리자 | Dashboard</title>
@@ -108,14 +114,14 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="/admin/member_list" class="nav-link">
+                <a href="/admin/member/member_list" class="nav-link">
                 <!-- 위 메뉴선택시 활성화active 되는 것은 j쿼리로 만들예정입니다. -->
                   <i class="far fa-circle nav-icon"></i>
                   <p>관리자 관리</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="/admin/board_list" class="nav-link">
+                <a href="/admin/board/board_list" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>게시물 관리</p>
                 </a>

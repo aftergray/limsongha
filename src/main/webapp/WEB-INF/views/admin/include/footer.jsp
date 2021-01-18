@@ -13,6 +13,10 @@
   <!-- 로그아웃 영역 Control Sidebar -->
   <aside class="control-sidebar control-sidebar-dark">
     <!-- Control sidebar content goes here -->
+    <div class="p-3 control-sidebar-content text-center">
+	    <h5>로그 아웃</h5><hr class="mb-2"/>
+	    <a href="/logout" class="btn btn-lg btn-primary">로그아웃</a>
+    </div>
   </aside>
   <!-- /.control-sidebar -->
 </div>
@@ -48,11 +52,12 @@
 <script src="/resources/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
 <!-- AdminLTE App -->
 <script src="/resources/dist/js/adminlte.js"></script>
-<!-- AdminLTE for demo purposes -->
+<!-- AdminLTE for demo purposes 
 <script src="/resources/demo.js"></script>
+-->
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="/resources/dist/js/pages/dashboard.js"></script>
-
+<!-- 왼쪽메뉴 선택된 부분 active클래스 주는 j쿼리 명령어 추가(아래) -->
 <script>
 $(document).ready(function() {
 	//현재 선택된 URL 값을 가져오는 명령(아래)
@@ -80,7 +85,6 @@ if( $(this).attr('href').includes(current_2) == true ) {//includes 포함하고 
 위에서 사용한 includes함수는 크롬에서만 작동이 되어서 IE에서는 작동이 않됨. 크로스브라우징처리를 해줘야 함.
 */
 </script>
-
 </body>
 </html>
 <!-- 관리자단 푸터 끝 -->

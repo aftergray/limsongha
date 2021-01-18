@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ include file="../include/header.jsp" %>
 
   <!-- 대시보드 본문 Content Wrapper. Contains page content -->
@@ -39,7 +41,7 @@
                     <!-- 부트스트랩 템플릿만으로는 디자인처리가 부족한 경우가 있기 때문에 종종 인라인 스타일 사용 -->
                     <div>
                         <select name="search_type" class="form-control">
-                            <option value="" selected>-전체-</option>
+                            <option value="all" selected>-전체-</option>
                             <option value="user_id" data-select2-id="8">ID</option>
                             <option value="user_name" data-select2-id="16">이름</option>
                         </select>
@@ -65,30 +67,30 @@
                       <th>user_id</th><!-- 테이블 헤드 타이틀태그th -->
                       <th>user_name[point]</th>
                       <th>email</th>
-                      <th>use</th>
-                      <th>regdate</th>
+                      <th>enabled</th>
+                      <th>reg_date</th>
                       <th>levels</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr onclick="javascript:location.href='/admin/member/member_view?user_id=admin';" style="cursor:pointer;">
-                      <td><a href="/admin/member/member_view?user_id=admin">admin</a></td>
+                  <c:if test="${empty members}">
+                  	<tr><td colspan="6" class="text-center">조회된 데이터가 없습니다.</td></tr>
+                  </c:if>
+                  <!-- jstl표준 core태그사용 반복문으로 Admin컨트롤러에서 가져온 members 오브젝트클래스 값을 출력 -->
+                  <c:forEach items="${members}" var="member">
+                  	<tr>
+                      <td><a href="/admin/member/member_view?page=${pageVO.page}&user_id=${member.user_id}">${member.user_id}</a></td>
                       <!-- 위에 a링크값은 리스트가 늘어날 수록 동적으로 user_id값이 변하게 됩니다. 개발자가 jsp처리 -->
-                      <td>관리자</td>
-                      <td>admin@abc.com</td>
-                      <td>true</td>
-                      <td>2020-12-01</td>
-                      <td><span class="badge bg-danger">ROLE_ADMIN</span></td>
+                      <td>${member.user_name}[${member.point}]</td>
+                      <td>${member.email}</td>
+                      <td>${member.enabled}</td>
+                      <td>
+                      <fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss" value="${member.reg_date}"/>
+                      </td>
+                      <td><span class="badge bg-danger">${member.levels}</span></td>
                       <!-- 권한표시는 부트스트랩 뺏지 클래스 사용 -->
                     </tr>
-                    <tr>
-                      <td><a href="/admin/member/member_view?user_id=user">user</a></td>
-                      <td>사용자</td>
-                      <td>user@abc.com</td>
-                      <td>false</td>
-                      <td>2020-12-01</td>
-                      <td><span class="badge bg-danger">ROLE_USER</span></td>
-                    </tr>
+                  </c:forEach>
                   </tbody>
                 </table>
               </div>
@@ -115,17 +117,25 @@
             <!-- 페이징처리 시작 -->
             <div class="pagination justify-content-center">
             	<ul class="pagination">
-            	 <li class="paginate_button page-item previous disabled" id="example2_previous">
-            	 <a href="#" aria-controls="example2" data-dt-idx="0" tabindex="0" class="page-link">Previous</a>
-            	 </li>
-            	 <!-- 위 이전게시물링크 -->
-            	 <li class="paginate_button page-item active"><a href="#" aria-controls="example2" data-dt-idx="1" tabindex="0" class="page-link">1</a></li>
-            	 <li class="paginate_button page-item "><a href="#" aria-controls="example2" data-dt-idx="2" tabindex="0" class="page-link">2</a></li>
-            	 <li class="paginate_button page-item "><a href="#" aria-controls="example2" data-dt-idx="3" tabindex="0" class="page-link">3</a></li>
-            	 <!-- 아래 다음게시물링크 -->
-            	 <li class="paginate_button page-item next" id="example2_next">
-            	 <a href="#" aria-controls="example2" data-dt-idx="7" tabindex="0" class="page-link">Next</a>
-            	 </li>
+            	 <c:if test="${pageVO.prev}">
+	            	 <li class="paginate_button page-item previous" id="example2_previous">
+	            	 <a href="/admin/member/member_list?page=${pageVO.startPage-1}&search_type=${pageVO.search_type}&search_keyword=${pageVO.search_keyword}" aria-controls="example2" data-dt-idx="0" tabindex="0" class="page-link">Previous</a>
+	            	 </li>
+	            	 <!-- 위 이전게시물링크 -->
+            	 </c:if>
+            	 
+            	 <!-- jstl for문이고, 향상된 for문이아닌 고전for문으로 시작값, 종료값 var변수idx는 인덱스값이 저장되어 있습니다. -->
+            	 <c:forEach begin="${pageVO.startPage}" end="${pageVO.endPage}" var="idx">
+            	 	<li class='paginate_button page-item <c:out value="${idx==pageVO.page?'active':''}" />'>
+            	 	<a href="/admin/member/member_list?page=${idx}&search_type=${pageVO.search_type}&search_keyword=${pageVO.search_keyword}" aria-controls="example2" data-dt-idx="1" tabindex="0" class="page-link">${idx}</a></li>
+            	 </c:forEach>
+
+            	 <c:if test="${pageVO.next}">
+	            	 <!-- 아래 다음게시물링크 -->
+	            	 <li class="paginate_button page-item next" id="example2_next">
+	            	 <a href="/admin/member/member_list?page=${pageVO.endPage+1}&search_type=${pageVO.search_type}&search_keyword=${pageVO.search_keyword}" aria-controls="example2" data-dt-idx="7" tabindex="0" class="page-link">Next</a>
+	            	 </li>
+            	 </c:if>
             	 </ul>
             </div>
 	  		<!-- 페이징처리 끝 -->     
