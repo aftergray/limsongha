@@ -17,7 +17,7 @@
 <a href="javascript:;"><!-- a링크태그의 가상링크# 대신에 javascript:; 입니다. -->
 <img src="/resources/sample/img/santa.jpg" alt="겔러리게시물1">
 <h2>겔러리제목1</h2>
-<p>겔러리게시물 1번의 내용 입니다. 여러분 환영합...</p>
+<p>겔여러분 환영합...</p>
 </a>
 </li>
 <li>

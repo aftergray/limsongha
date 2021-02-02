@@ -8,13 +8,18 @@ import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.edu.dao.IF_BoardDAO;
 import org.edu.service.IF_BoardService;
+import org.edu.service.IF_BoardTypeService;
 import org.edu.service.IF_MemberService;
 import org.edu.util.CommonController;
 import org.edu.util.SecurityCode;
 import org.edu.vo.AttachVO;
+import org.edu.vo.BoardTypeVO;
 import org.edu.vo.BoardVO;
 import org.edu.vo.MemberVO;
 import org.edu.vo.PageVO;
@@ -49,6 +54,62 @@ public class AdminController {
 	@Inject
 	IF_MemberService memberService;//멤버인터페이스를 주입받아서 memberService오브젝트 변수를 생성.
 	
+	@Inject
+	private IF_BoardTypeService boardTypeService;
+	
+	//게시판생성관리 삭제매핑(POST)
+	@RequestMapping(value="/admin/bbs_type/bbs_type_delete",method=RequestMethod.POST)
+	public String bbs_type_delete(BoardTypeVO boardTypeVO, RedirectAttributes rdat) throws Exception {
+		String board_type = boardTypeVO.getBoard_type();
+		PageVO pageVO = new PageVO();
+		pageVO.setBoard_type(board_type);
+		int board_count = boardService.countBoard(pageVO);
+		if(board_count > 0) {
+			rdat.addFlashAttribute("msg_fail", "해당게시판의 게시물내용이 존재합니다. 삭제");
+			return "redirect:/admin/bbs_type/bbs_type_update?board_type="+board_type;
+		}else {
+			boardTypeService.delete_board_type(board_type);
+			rdat.addFlashAttribute("msg", "삭제");
+		}
+		return "redirect:/admin/bbs_type/bbs_type_list";
+	}
+	//게시판생성관리 등록매핑(POST)
+	@RequestMapping(value="/admin/bbs_type/bbs_type_write",method=RequestMethod.POST)
+	public String bbs_type_wrtie(BoardTypeVO boardTypeVO, RedirectAttributes rdat) throws Exception {
+		//메서드명이 같고, 로드된 매개변수가 틀린방식을 오버로드
+		boardTypeService.insert_board_type(boardTypeVO);
+		rdat.addFlashAttribute("msg", "등록");
+		return "redirect:/admin/bbs_type/bbs_type_list";
+	}
+	
+	//게시판생성관리 등록매핑(GET)
+	@RequestMapping(value="/admin/bbs_type/bbs_type_write",method=RequestMethod.GET)
+	public String bbs_type_write() throws Exception {
+		
+		return "admin/bbs_type/bbs_type_write";
+	}
+	
+	//게시판생성관리 수정매핑(POST)
+	@RequestMapping(value="/admin/bbs_type/bbs_type_update",method=RequestMethod.POST)
+	public String bbs_type_update(BoardTypeVO boardTypeVO,RedirectAttributes rdat) throws Exception {
+		boardTypeService.update_board_type(boardTypeVO);
+		rdat.addFlashAttribute("msg", "수정");
+		return "redirect:/admin/bbs_type/bbs_type_update?board_type=" + boardTypeVO.getBoard_type();
+	}
+	//게시판생성관리 수정매핑(Get)
+	@RequestMapping(value="/admin/bbs_type/bbs_type_update",method=RequestMethod.GET)
+	public String bbs_type_update(@RequestParam("board_type") String board_type,Model model) throws Exception {
+		
+		BoardTypeVO boardTypeVO = boardTypeService.view_board_type(board_type);
+		model.addAttribute("boardTypeVO", boardTypeVO);
+		return "admin/bbs_type/bbs_type_update";
+	}
+	//게시판생성관리 리스트 매핑
+	@RequestMapping(value="/admin/bbs_type/bbs_type_list",method=RequestMethod.GET)
+	public String bbs_type_list() throws Exception {
+		//여기는 model을 이용해서 jsp로 board_type_list오브젝트를 보낼필요X, ControllAdvice클래스에서 만들었기 때문에...
+		return "admin/bbs_type/bbs_type_list";
+	}
 	//GET은 URL전송방식(아무데서나 브라우저주소에 적으면 실행됨), POST는 폼전송방식(해당페이지에서만 작동가능)
 	@RequestMapping(value="/admin/board/board_delete",method=RequestMethod.POST)
 	public String board_delete(RedirectAttributes rdat,PageVO pageVO, @RequestParam("bno") Integer bno) throws Exception {
@@ -105,6 +166,8 @@ public class AdminController {
 		//boardVO.setContent(securityCode.unscript(xss_date));
 		//시큐어코딩 끝
 		model.addAttribute("boardVO", boardVO);
+		//model.addAttribute("board_type_list", "게시판타입 리스트 오브젝트");
+		//게시판타입리스트는 위처럼 개별 메서드에서 처리하지 않고, AdviceController클래스로 대체 합니다.
 		return "admin/board/board_update";//파일경로
 	}
 	@RequestMapping(value="/admin/board/board_update",method=RequestMethod.POST)
@@ -119,20 +182,7 @@ public class AdminController {
 		//첨부파일 수정: 기존첨부파일 삭제 후 신규파일 업로드
 		for(MultipartFile file:files) {//다중파일 업로드 호출 부분 시작 향상된 for문사용
 			if(file.getOriginalFilename() != "") {//첨부파일명이 있으면
-				//기존파일 DB에서 삭제처리할 변수 생성한 이유:업데이트jsp에서 첨부파일 개별삭제시 순서가 필요하기때문
-				int cnt = 0;
-				for(AttachVO file_name:delFiles) {
-					save_file_names[cnt] = file_name.getSave_file_name();
-					real_file_names[cnt] = file_name.getReal_file_name();
-					cnt = cnt + 1;//반복시 증가
-				}
-				/*
-				for(HashMap<String,Object> file_name:delFiles_noUse) {
-					save_file_names[cnt] = (String) file_name.get("save_file_name");
-					real_file_names[cnt] = (String) file_name.get("real_file_name");
-					cnt = cnt + 1;//반복시 증가
-				}
-				*/
+				
 				int sun = 0;//업데이트jsp화면에서 첨부파일을 개별 삭제시 사용할  순서가 필요하기때문 변수 추가
 				//기존파일 폴더에서 실제파일 삭제 처리
 				for(AttachVO file_name:delFiles) {
@@ -140,17 +190,20 @@ public class AdminController {
 						File target = new File(commonController.getUploadPath(), file_name.getSave_file_name());
 						if(target.exists()) {
 							target.delete();//폴더에서 기존첨부파일 지우기
+							//서비스클래스에는 첨부파일DB를 지우는 메서드가 없음. DAO를 접근해서 tbl_attach를 지웁니다.
+							boardDAO.deleteAttach(file_name.getSave_file_name());
 						}
 					}
-					//서비스클래스에는 첨부파일DB를 지우는 메서드가 없음. DAO를 접근해서 tbl_attach를 지웁니다.
-					boardDAO.deleteAttach(file_name.getSave_file_name());
 					sun = sun + 1;//개별삭제는 for문에서 딱 1번 뿐이기 때문에
 				}
 				//신규파일 폴더에 업로드 처리
-				save_file_names[index] = commonController.fileUpload(file);//폴더에 업로드저장완료
-				real_file_names[index] = file.getOriginalFilename();//"한글파일명.jpg"
+				save_file_names[index] = commonController.fileUpload(file);//신규파일 폴더에 업로드
+				real_file_names[index] = file.getOriginalFilename();//신규파일 한글파일명 저장
+			}else{
+				save_file_names[index] = null;//신규파일 폴더에 업로드
+				real_file_names[index] = null;//신규파일 한글파일명 저장
 			}
-			index = index + 1;
+			index = index + 1; 
 		}
 		boardVO.setSave_file_names(save_file_names);//UUID로 생성된 유니크한 파일명
 		boardVO.setReal_file_names(real_file_names);
@@ -244,6 +297,20 @@ public class AdminController {
 	
 	@RequestMapping(value="/admin/board/board_list",method=RequestMethod.GET)
 	public String board_list(@ModelAttribute("pageVO") PageVO pageVO, Model model) throws Exception {
+		//게시판 타입을 세션변수로 저장(아래)
+		/* AOP기능으로 대체(아래)
+		HttpServletRequest request, @RequestParam(value="board_type",required=false) String board_type,
+		HttpSession session = request.getSession();
+		if(board_type != null) {
+			session.setAttribute("session_board_type", board_type);
+		}
+		//PageVO와 BoardVO에서 세션변수로 get/set 하기 때문에 
+		if(session.getAttribute("session_board_type") != null ) {
+			board_type = (String) session.getAttribute("session_board_type");
+			pageVO.setBoard_type(board_type);//다중게시판 쿼리때문에 추가
+		}
+		*/
+		
 		//테스트용 더미 게시판 데이터 만들기(아래)
 		/*
 		 * BoardVO input_board = new BoardVO(); input_board.setBno(1);
@@ -284,7 +351,7 @@ public class AdminController {
 	
 	//메서드 오버로딩(예, 동영상 로딩중..., 로딩된 매개변수가 다르면, 메서드이름을 중복가능합니다. 대표적인 다형성구현)
 	@RequestMapping(value="/admin/member/member_write",method=RequestMethod.POST)
-	public String member_write(MemberVO memberVO) throws Exception {
+	public String member_write(@Valid MemberVO memberVO) throws Exception {
 		//아래 GET방식의 폼 출력화면에서 데이터 전송받은 내용을 처리하는 바인딩.
 		//POST방식으로 넘어온 user_pw값을 BCryptPasswordEncoder클래스로 암호시킴
 		if(memberVO.getUser_pw() != null) {
@@ -311,9 +378,10 @@ public class AdminController {
 	}
 	
 	@RequestMapping(value="/admin/member/member_update",method=RequestMethod.POST)
-	public String member_update(PageVO pageVO, MemberVO memberVO) throws Exception {
+	public String member_update(PageVO pageVO,@Valid MemberVO memberVO) throws Exception {
 		//POST방식으로 넘어온 user_pw값을 BCryptPasswordEncoder클래스로 암호시킴
-		if(memberVO.getUser_pw() != null) {
+		if(memberVO.getUser_pw() == null || memberVO.getUser_pw() == "") {
+		} else {
 			BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 			String userPwEncoder = passwordEncoder.encode(memberVO.getUser_pw());
 			memberVO.setUser_pw(userPwEncoder);

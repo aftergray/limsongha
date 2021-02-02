@@ -10,7 +10,7 @@
 <a href="javascript:;" title="겔러리게시판2의 이미지1번입니다.">
 <div class="info">
 <h2>겔러리제목1</h2>
-<p>겔러리게시물1번의 내용입니다. 여러분 환영...</p>
+<p>겔러리게시물1번의 내용입니다.ddsfsd 여러분 환영...</p>
 </div>
 <img src="/resources/sample/img/xmas2.jpg" alt="겔러리게시판2이미지1">
 </a>
